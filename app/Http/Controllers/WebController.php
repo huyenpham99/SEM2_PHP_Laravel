@@ -12,4 +12,7 @@ class WebController extends Controller
     public function login(){
         return view("login");
     }
+    public function index(){
+        return view ("home");
+    }
 }

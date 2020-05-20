@@ -1,13 +1,28 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-   <x-head/>
+    <x-head/>
 </head>
-<body>
-<x-header/>
-<div class="container">
-    @yield("content")
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+    <!-- Navbar -->
+   <x-nav/>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+<x-aside/>
+
+    <!-- Content Wrapper. Contains page content -->
+<x-footer/>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
 </div>
-@include("components.footer")
+<!-- ./wrapper -->
+<x-script/>
 </body>
 </html>
