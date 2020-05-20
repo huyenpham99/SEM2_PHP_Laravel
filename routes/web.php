@@ -16,3 +16,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'WebController@index');
 Route::get('/login', 'WebController@login');
 Route::get('/register', 'WebController@register');
+Route::get('/list-category', 'WebController@ListCategory');

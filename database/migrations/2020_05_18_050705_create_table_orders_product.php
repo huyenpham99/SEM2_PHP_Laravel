@@ -18,6 +18,8 @@ class CreateTableOrdersProduct extends Migration
             $table->unsignedBigInteger("order_id");
             $table->unsignedBigInteger("user_id");
             $table->decimal("price",12,4);
+            $table->unsignedBigInteger("brand_id");
+            $table->foreign("brand_id")->references("id")-> on("brands");
             $table->timestamps();
         });
     }
