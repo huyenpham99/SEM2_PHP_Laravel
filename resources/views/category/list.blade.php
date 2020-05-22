@@ -46,13 +46,14 @@
                     <td> <form action="{{url("/delete-category/{$category->__get("id")}")}}" method="post">
                             @method("DELETE")
                             @csrf
-                            <button type="submit" onclick="return confirm('Are you sure')" ;class="btn btn-outline-danger btn-danger">Delete</button>
+                            <button type="submit" onclick="return confirm('Are you sure')"; class="btn btn-outline-danger btn-danger">Delete</button>
                         </form></td>
                 </tr>
                     @endforeach
 
                 </tbody>
             </table>
+             {!!$categories->links() !!}
         </div>
         <!-- /.card-body -->
     </div>
