@@ -1,8 +1,10 @@
 @extends("layout")
+@section("title", "Category Listing")
+@section("contentHeader", "Category")
 @section("content")
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Catwgory Listing</h3>
+            <h3 class="card-title">Category Listing</h3>
 
             <div class="card-tools">
                 <div class="input-group input-group-sm" style="width: 150px;">
@@ -14,6 +16,9 @@
                 </div>
             </div>
         </div>
+        <div class="card-header">
+            <a href="{{url("/new-category")}}" class="float-lg-right btn btn-danger">+</a>
+        </div>
         <!-- /.card-header -->
         <div class="card-body table-responsive p-0">
             <table class="table table-hover text-nowrap">
@@ -23,15 +28,29 @@
                     <th>Category</th>
                     <th>Created at</th>
                     <th>Updated at</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
                 </tr>
                 </thead>
                 <tbody>
+                @foreach($categories as $category)
                 <tr>
-                    <td>183</td>
-                    <td>John Doe</td>
-                    <td>11-7-2014</td>
-                    <td></td>
+                    <td>{{$category->__get("id")}}</td>
+                    <td>{{$category->__get("category_name")}}</td>
+                    <td>{{$category->__get("created_at")}}</td>
+                    <td>{{$category->__get("updated_at")}}</td>
+                    <td>
+                        <a href="{{url("/edit-category/{$category->__get("id")}")}}" class="btn btn-outline-warning">Edit</a>
+
+                    </td>
+                    <td> <form action="{{url("/delete-category/{$category->__get("id")}")}}" method="post">
+                            @method("DELETE")
+                            @csrf
+                            <button type="submit" onclick="return confirm('Are you sure')" ;class="btn btn-outline-danger btn-danger">Delete</button>
+                        </form></td>
                 </tr>
+                    @endforeach
+
                 </tbody>
             </table>
         </div>

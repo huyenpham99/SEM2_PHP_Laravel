@@ -16,4 +16,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'WebController@index');
 Route::get('/login', 'WebController@login');
 Route::get('/register', 'WebController@register');
-Route::get('/list-category', 'WebController@ListCategory');
+Route::get('/list-category', 'WebController@listCategory');
+Route::get('/new-category', 'WebController@newCategory');
+Route::post('/save-category', 'WebController@saveCategory');
+Route::get('/list-brand', 'WebController@listBrand');
+Route::get('/new-brand', 'WebController@newBrand');
+Route::post('/save-brand', 'WebController@saveBrand');
+//update
+Route::get("/edit-category/{id}", "WebController@editCategory");
+Route::put("/update-category/{id}", "WebController@updateCategory"); //cap nhat du lieu
+Route::delete("/delete-category/{id}", "WebController@deleteCategory");
