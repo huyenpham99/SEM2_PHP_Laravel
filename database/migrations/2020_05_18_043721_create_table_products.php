@@ -23,6 +23,8 @@ class CreateTableProducts extends Migration
             $table->foreign("category_id")->references("id")->on("categories");
             //gán khóa ngoại cho bảng category
             //reference: tham chiếu đến column id của bảng categories
+            $table->unsignedBigInteger("brand_id"); //khoa ngoai
+            $table->foreign("brand_id")->references("id")->on("brands");
             $table->timestamps();
         });
     }

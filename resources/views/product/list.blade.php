@@ -1,10 +1,10 @@
 @extends("layout")
-@section("title","Brand Listing")
-@section("contentHeader","Brand")
+@section("title","Product Listing")
+@section("contentHeader","Product")
 @section("content")
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Brand Listing</h3>
+            <h3 class="card-title">Product Listing</h3>
             <div class="card-tools">
                 <div class="input-group input-group-sm" style="width: 150px;">
                     <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
@@ -16,7 +16,7 @@
             </div>
         </div>
         <div class="card-header">
-            <a href="{{url("new-brand")}}" class="float-right btn btn-outline-primary">+</a>
+            <a href="{{url("new-product")}}" class="float-right btn btn-outline-primary">+</a>
         </div>
         <!-- /.card-header -->
         <div class="card-body table-responsive p-0">
@@ -24,6 +24,12 @@
                 <thead>
                 <tr>
                     <th>ID</th>
+                    <th>Product Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Category</th>
+                    <th>Brand</th>
                     <th>Created at</th>
                     <th>Updated at</th>
                     <th>Edit</th>
@@ -31,14 +37,19 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($brands as $brand)
+                @foreach($products as $product)
                     <tr>
-                        <td>{{$brand->__get("id")}}</td>
-                        <td>{{$brand->__get("brand_name")}}</td>
+                        <td>{{$product->__get("id")}}</td>
+                        <td>{{$product->__get("product_name")}}</td>
+                        <td>{{$product->__get("product_desc")}}</td>
+                        <td>{{$product->__get("price")}}</td>
+                        <td>{{$product->__get("qty")}}</td>
+                        <td>{{$product->__get("category_id")}}</td>
+                        <td>{{$product->__get("brand_id")}}</td>
                         <td>{{$product->__get("created_at")}}</td>
                         <td>{{$product->__get("updated_at")}}</td>
                         <td>
-                            <a href="{{url("/edit-brand/{$brand->__get("id")}")}}" class="btn btn-outline-warning">Edit</a>
+                            <a href="{{url("/edit-product/{$product->__get("id")}")}}" class="btn btn-outline-warning">Edit</a>
 
                         </td>
                         <td> <form action="{{url("/delete-product/{$product->__get("id")}")}}" method="post">
@@ -50,7 +61,7 @@
                 @endforeach
                 </tbody>
             </table>
-            {!! $brands->links() !!}
+            {!! $products->links() !!}
         </div>
         <!-- /.card-body -->
     </div>
