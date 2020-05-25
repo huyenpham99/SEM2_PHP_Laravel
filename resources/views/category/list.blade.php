@@ -26,6 +26,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Category</th>
+                    <th>Products Count</th>
                     <th>Created at</th>
                     <th>Updated at</th>
                     <th>Edit</th>
@@ -37,6 +38,7 @@
                 <tr>
                     <td>{{$category->__get("id")}}</td>
                     <td>{{$category->__get("category_name")}}</td>
+                    <td>{{$category->__get("products_count")}}</td>
                     <td>{{$category->__get("created_at")}}</td>
                     <td>{{$category->__get("updated_at")}}</td>
                     <td>

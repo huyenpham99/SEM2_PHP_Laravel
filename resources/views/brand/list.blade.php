@@ -24,6 +24,7 @@
                 <thead>
                 <tr>
                     <th>ID</th>
+                    <th>Brand Name</th>
                     <th>Created at</th>
                     <th>Updated at</th>
                     <th>Edit</th>
@@ -35,13 +36,13 @@
                     <tr>
                         <td>{{$brand->__get("id")}}</td>
                         <td>{{$brand->__get("brand_name")}}</td>
-                        <td>{{$product->__get("created_at")}}</td>
-                        <td>{{$product->__get("updated_at")}}</td>
+                        <td>{{$brand->__get("created_at")}}</td>
+                        <td>{{$brand->__get("updated_at")}}</td>
                         <td>
                             <a href="{{url("/edit-brand/{$brand->__get("id")}")}}" class="btn btn-outline-warning">Edit</a>
 
                         </td>
-                        <td> <form action="{{url("/delete-product/{$product->__get("id")}")}}" method="post">
+                        <td> <form action="{{url("/delete-brand/{$brand->__get("id")}")}}" method="post">
                                 @method("DELETE")
                                 @csrf
                                 <button type="submit" onclick="return confirm('Are you sure')"; class="btn btn-danger">Delete</button>

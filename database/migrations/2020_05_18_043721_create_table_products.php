@@ -17,15 +17,13 @@ class CreateTableProducts extends Migration
             $table->id();
             $table->string("product_name");
             $table->text("product_desc");
-            $table->decimal("price", 12,4);
-            $table->unsignedInteger("qty") ->default(1); //gia tri mac dinh do mk dat
-            $table->unsignedBigInteger("category_id"); //khoa ngoai
-            $table->foreign("category_id")->references("id")->on("categories");
-            //gán khóa ngoại cho bảng category
-            //reference: tham chiếu đến column id của bảng categories
-            $table->unsignedBigInteger("brand_id"); //khoa ngoai
-            $table->foreign("brand_id")->references("id")->on("brands");
+            $table->decimal("price",12,4);
+            $table->unsignedInteger("qty")->default(1);
+            $table->unsignedBigInteger("category_id");
+            $table->unsignedBigInteger("brand_id");
             $table->timestamps();
+            $table->foreign("category_id")->references("id")->on("categories");
+            $table->foreign("brand_id")->references("id")->on("brands");
         });
     }
 

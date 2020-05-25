@@ -12,13 +12,12 @@ class CreateTableOrders extends Migration
      * @return void
      */
     public function up()
-    {
-        Schema::create('orders', function (Blueprint $table) {
-            $table->id();
-            $table->decimal("grand_total");
-            $table->unsignedBigInteger("user_id"); //khoa ngoai
-            $table->foreign("user_id")->references("id")->on("users");
-            $table->timestamps();
+    {Schema::create('orders', function (Blueprint $table) {
+        $table->id();
+        $table->unsignedBigInteger("user_id");
+        $table->decimal("grand_total",12,4);
+        $table->foreign("user_id")->references("id")->on("users");
+        $table->timestamps();
         });
     }
 

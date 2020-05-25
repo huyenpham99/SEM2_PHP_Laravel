@@ -30,7 +30,7 @@ class WebController extends Controller
     public function listCategory()
     {
         //lay tat ca
-        $category = Category::paginate();
+        $category = Category::withCount("Products")->paginate(20);
         //show validation theo ten D%
         //  $category =Category::where ("category_name", "LIKE", "D%")->get();
         return view("category.list", [
@@ -108,7 +108,7 @@ class WebController extends Controller
     public function listBrand()
     {
         //lay tat ca
-        $brand = Brand::paginate();
+        $brand = Brand::paginate(20);
         //show validation theo ten D%
         //  $category =Category::where ("category_name", "LIKE", "D%")->get();
         return view("brand.list", [
@@ -182,88 +182,124 @@ class WebController extends Controller
         return redirect()->to("/list-brand");
     }
 
-    public function listProduct()
-    {
-        $products = Product::paginate(20);
-        return view("product.list", ["products" => $products]);
+    public function listProduct(){
+//            $product = Product::paginate(20);
+//        $product = Product::leftjoin("categories","categories.id","=","products.category_id")
+//            ->leftjoin("brands","brands.id","=","products.brand_id")
+//            ->select("products.*","categories.category_name","brands.brand_name")->paginate(20);
+        $product = Product::with("Category")->with("Brand")->paginate(20);
+//        dd($product);
+        return view("product.list",["products"=>$product]); // string la mang cac product bien duoc gui sang lam bien dau tien cua forech
+
     }
-
-    public function newProduct()
-    {
-        $categories = Category::all();
-        $brands = Brand::all();
-        return view("product.new", [
-            "categories" => $categories,
-            "brands" => $brands
-        ]);
+    public function newProduct(){
+        // phai lay du lieu tu cac bang phu
+        $category = Category::all();
+        $brand = Brand::all();
+        return view("product.new",[
+                "categories"=>$category,
+                "brands" => $brand,
+            ]
+        );
     }
-
-//sua Product
-
-    public function saveProduct(Request $request)
-    {
-        //validate du lieu
+    public function saveProduct(Request $request){ // tạo biến request lưu dữ liệu người dùng gửi lên ở body
+        // đầu tiên phải validate dữ liệu cả bên html và bên sever
+        // cách validate
         $request->validate([
-            "product_name" => "required|string|min:6|unique:products",
-            "product_desc" => "required|string|min:6|unique:products",
-            "price" => "required|int",
-            "qty" => "required|int"
+            "product_name" => "required",
+            "product_desc" => "required",
+            "price" => "required|numeric|min:0",
+            "qty" => "required|numeric|min:1",
+            "category_id" => "required",
+            "brand_id" => "required",
         ]);
         try {
-//tự động cập nhật thời gian cho category
+            // bắt lỗi nếu không có = null
+            $productImage = null;
+            // xử lý để đưa ảnh lên media trong public sau đó lấy nguồn file cho vào biến $product
+            if($request->hasFile("product_image")){ // nếu request gửi lên có file product_image là inputname
+                $file = $request->file("product_image"); // trả về 1 đối tượng lấy từ request của input
+                // lấy tên file
+                // thêm time() để thay đổi thời gian upload ảnh lên để không bị trùng ảnh với nhau
+                $allow = ["png","jpg","jpeg","gif"];
+                $extName = $file->getClientOriginalExtension();
+                if(in_array($extName,$allow)){ // nếu đuôi file gửi lên nằm trong array
+                    $fileName = time().$file->getClientOriginalName(); //  lấy tên gốc original của file gửi lên từ client
+                    $file->move(public_path("media"),$fileName); // đẩy file vào thư mục media với tên là fileName
+                    //convert string to ProductImage
+                    $productImage = "media/".$fileName; // lấy nguồn file
+                }
+            }
             Product::create([
                 "product_name" => $request->get("product_name"),
+                "product_image" =>$productImage,
                 "product_desc" => $request->get("product_desc"),
                 "price" => $request->get("price"),
                 "qty" => $request->get("qty"),
                 "category_id" => $request->get("category_id"),
-                "brand_id" => $request->get("brand_id")
+                "brand_id" => $request->get("brand_id"),
             ]);
-        } catch (\Exception $exception) {
-            return redirect()->back();
-        }
-        return redirect()->to("/list-product");
-    }
-    public function editProduct($id)
-    {
-        $products = Product::findOrFail($id);
-        $categories = Category::all();
-        $brands = Brand::all();
-        return view("product.new", [
-            "products"=>$products,
-            "categories" => $categories,
-            "brands" => $brands]);
-    }
-
-    public function updateProduct($id, Request $request)
-    {
-        $product = Product::findOrFail($id);
-        $request->validate([
-            "product_name" => "required|min:3|unique:products,product_name,{$id}"
-        ]);
-        try {
-            $product->update([
-
-                "product_name" => $request->get("product_name"),
-                "product_desc" => $request->get("product_desc"),
-                "price" => $request->get("price"),
-                "qty" => $request->get("qty"),
-                "category_id" => $request->get("category_id"),
-                "brand_id" => $request->get("brand_id")
-            ]);
-        } catch (\Exception $exception) {
-            dd($exception->getMessage());
+        }catch (\Exception $exception){
             return redirect()->back();
         }
         return redirect()->to("/list-product");
     }
 
-    public function deleteProduct($id)
-    {
+    public function editProduct($id, Request $request){
+        $category = Category::all();
+        $brand = Brand::all();
         $product = Product::findOrFail($id);
+        return view("product.edit",[
+            "categories"=>$category,
+            "brands" => $brand,
+            "product" => $product]);
+    }
+    public function deleteProduct($id){
+        $product = Product::findorFail($id);
         try {
             $product->delete();
-        } catch (\Exception $exception) {
+        }catch (\Exception $exception){
+            return redirect()->back();
+        }
+        return redirect()->to("/list-product");
+    }
+    public function updateProduct($id,Request $request){
+        $product = Product::findOrFail($id);
+        $request->validate([ // unique voi categories(table) category_name(truong muon unique), (id khong muon bi unique)
+            "product_name" => "required|min:3|unique:products,product_name,{$id}",
+            "product_desc" => "required",
+            "price" => "required|numeric|min:0",
+            "qty" => "required|numeric|min:1",
+            "category_id" => "required",
+            "brand_id" => "required",
+        ]);
+
+        try{
+            $productImage = $product->get("product_image");
+            // xử lý để đưa ảnh lên media trong public sau đó lấy nguồn file cho vào biến $product
+            if($request->hasFile("product_image")){ // nếu request gửi lên có file product_image là inputname
+                $file = $request->file("product_image"); // trả về 1 đối tượng lấy từ request của input
+                // lấy tên file
+                // thêm time() để thay đổi thời gian upload ảnh lên để không bị trùng ảnh với nhau
+                $allow = ["png","jpg","jpeg","gif"];
+                $extName = $file->getClientOriginalExtension();
+                if(in_array($extName,$allow)){ // nếu đuôi file gửi lên nằm trong array
+                    $fileName = time().$file->getClientOriginalName(); //  lấy tên gốc original của file gửi lên từ client
+                    $file->move(public_path("media"),$fileName); // đẩy file vào thư mục media với tên là fileName
+                    //convert string to ProductImage
+                    $productImage = "media/".$fileName; // lấy nguồn file
+                }
+            }
+            $product->update([
+                "product_name" => $request->get("product_name"),
+                "product_image" => $productImage,
+                "product_desc" => $request->get("product_desc"),
+                "price" => $request->get("price"),
+                "qty" => $request->get("qty"),
+                "category_id" => $request->get("category_id"),
+                "brand_id" => $request->get("brand_id"),
+            ]);
+        }catch(\Exception $exception){
             return redirect()->back();
         }
         return redirect()->to("/list-product");
