@@ -16,7 +16,7 @@
             </div>
         </div>
         <div class="card-header">
-            <a href="{{url("new-brand")}}" class="float-right btn btn-outline-primary">+</a>
+            <a href="{{url("/new-brand")}}" class="float-right btn btn-outline-primary">+</a>
         </div>
         <!-- /.card-header -->
         <div class="card-body table-responsive p-0">
@@ -25,6 +25,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Brand Name</th>
+                    <th>Brand Image</th>
                     <th>Created at</th>
                     <th>Updated at</th>
                     <th>Edit</th>
@@ -36,6 +37,7 @@
                     <tr>
                         <td>{{$brand->__get("id")}}</td>
                         <td>{{$brand->__get("brand_name")}}</td>
+                        <td><img src="{{$brand->getImage()}}" width="60px"/></td>
                         <td>{{$brand->__get("created_at")}}</td>
                         <td>{{$brand->__get("updated_at")}}</td>
                         <td>

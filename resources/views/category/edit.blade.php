@@ -8,7 +8,7 @@
         </div>
         <!-- /.card-header -->
         <!-- form start -->
-        <form role="form" action="{{url("/update-category/{$category->__get("id")}")}}" method="post">
+        <form role="form" action="{{url("/update-category/{$category->__get("id")}")}}" method="post" enctype="multipart/form-data">
             @method("PUT")
             @csrf
             <div class="card-body">
@@ -18,6 +18,11 @@
                     @error("category_name")
                     <span class="error invalid-feedback">  {{$message}}</span>
                     @enderror
+                </div>
+                <div class="form-group">
+                    <label>Category Image</label>
+                    <p>Old Image</p><img src="{{$category->getImage()}}" width="60px"/>
+                    <input type="file" name="category_image" class="form-control" placeholder="New Category Name"/>
                 </div>
             </div>
             <!-- /.card-body -->

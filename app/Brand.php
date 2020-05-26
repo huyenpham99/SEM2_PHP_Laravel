@@ -11,8 +11,15 @@ class Brand extends Model
     //loc cac trường còn lại của bảng
     //Model (ORM)
     public $fillable = [
-        "brand_name"
+        "brand_name",
+        "brand_image",
     ];
+    public function getImage(){
+        if (is_null($this->__get("brand_image"))){
+            return asset("media/brand.jpeg");
+        }
+        return asset($this->__get("brand_image"));
+    }
 
     public function get($key)
     {

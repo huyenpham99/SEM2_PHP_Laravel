@@ -8,7 +8,7 @@
         </div>
         <!-- /.card-header -->
         <!-- form start -->
-        <form role="form" action="{{url("/save-brand")}}" method="post">
+        <form role="form" action="{{url("/save-brand")}}" method="post"  enctype="multipart/form-data">
             @method("POST")
             @csrf
             <div class="card-body">
@@ -18,6 +18,10 @@
                     @error("brand_name")
                     <span class="error invalid-feedback">  {{$message}}</span>
                     @enderror
+                </div>
+                <div class="form-group">
+                    <label>Brand Image</label>
+                    <input type="file" name="brand_image" class="form-control" placeholder="New Brand Image">
                 </div>
             </div>
             <!-- /.card-body -->

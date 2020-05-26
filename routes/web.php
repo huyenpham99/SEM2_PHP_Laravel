@@ -12,10 +12,17 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+//home
 Route::get('/', 'WebController@index');
+
+//login
 Route::get('/login', 'WebController@login');
+
+//register
 Route::get('/register', 'WebController@register');
+
+
+//Category
 Route::get('/list-category', 'WebController@listCategory');
 Route::get('/new-category', 'WebController@newCategory');
 Route::post('/save-category', 'WebController@saveCategory');

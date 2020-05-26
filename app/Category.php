@@ -11,8 +11,15 @@ class Category extends Model
     //loc cac trường còn lại của bảng
     //Model (ORM)
     public $fillable = [
-        "category_name"
+        "category_name",
+        "category_image"
     ];
+    public function getImage(){
+        if (is_null($this->__get("category_image"))){
+            return asset("media/category.jpeg");
+        }
+        return asset($this->__get("category_image"));
+    }
 
     public function get($key)
     {
