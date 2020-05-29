@@ -21,10 +21,4 @@ class Brand extends Model
         return asset($this->__get("brand_image"));
     }
 
-    public function get($key)
-    {
-        if (is_null($this->get($key)))
-            return "default value";
-        return $this->get($key);
-    }
 }

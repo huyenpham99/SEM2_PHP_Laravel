@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -12,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Auth::routes();
+
 //home
 Route::get('/', 'WebController@index');
 
@@ -53,3 +58,7 @@ Route::post('/save-product', 'WebController@saveProduct');
 Route::get("/edit-product/{id}", "WebController@editProduct");
 Route::put("/update-product/{id}", "WebController@updateProduct"); //cap nhat du lieu
 Route::delete("/delete-product/{id}", "WebController@deleteProduct");
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

@@ -20,13 +20,13 @@ class Category extends Model
         }
         return asset($this->__get("category_image"));
     }
-
-    public function get($key)
-    {
-        if (is_null($this->get($key)))
-            return "default value";
-        return $this->get($key);
-    }
+//
+//    public function get($key)
+//    {
+//        if (is_null($this->get($key)))
+//            return "default value";
+//        return $this->get($key);
+//    }
 
 public function Products(){
         return $this ->hasMany("\App\Product"); //tra ve 1 collection
