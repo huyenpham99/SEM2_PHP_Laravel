@@ -8,7 +8,7 @@
         </div>
         <!-- /.card-header -->
         <!-- form start -->
-        <form role="form" action="{{url("/update-category/{$category->__get("id")}")}}" method="post" enctype="multipart/form-data">
+        <form role="form" action="{{url("admin/update-category/{$category->__get("id")}")}}" method="post" enctype="multipart/form-data">
             @method("PUT")
             @csrf
             <div class="card-body">

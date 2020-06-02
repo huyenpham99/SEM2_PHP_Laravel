@@ -16,10 +16,19 @@ class Category extends Model
     ];
     public function getImage(){
         if (is_null($this->__get("category_image"))){
-            return asset("media/category.jpeg");
+            return asset("media/default.png");
         }
         return asset($this->__get("category_image"));
     }
+    public function getRouteKeyName()
+    {
+       return "slug";
+    }
+    public  function getCategoryUrl(){
+        return url("/category/{$this->__get("slug")}");
+    }
+
+
 //
 //    public function get($key)
 //    {
