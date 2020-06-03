@@ -10,12 +10,8 @@ class BrandController extends Controller
 {
     public function listBrand()
     {
-        //lay tat ca
         $brand = Brand::paginate(20);
-        //show validation theo ten D%
-        //  $category =Category::where ("category_name", "LIKE", "D%")->get();
         return view("brand.list", ["brands" => $brand]);
-        //
     }
 
     public function newBrand()
