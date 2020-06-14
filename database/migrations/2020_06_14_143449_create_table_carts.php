@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTableCart extends Migration
+class CreateTableCarts extends Migration
 {
     /**
      * Run the migrations.
@@ -17,7 +17,6 @@ class CreateTableCart extends Migration
             $table->id();
             $table->unsignedBigInteger("user_id");
             $table->boolean("is_checkout")->default(1);
-            //trong trạng thái là 1 có thể thanh toán
             $table->timestamps();
             $table->foreign("user_id")->references("id")->on("users");
         });

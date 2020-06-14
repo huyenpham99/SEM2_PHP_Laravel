@@ -38,3 +38,5 @@ public const USER_ROLE =0;
         'email_verified_at' => 'datetime',
     ];
 }
+
+

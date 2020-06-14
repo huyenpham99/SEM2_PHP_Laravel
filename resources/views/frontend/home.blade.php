@@ -6,13 +6,8 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="hero__categories">
-                        <div class="hero__categories__all">
-                            <i class="fa fa-bars"></i>
-                            <span>All departments</span>
-                        </div>
-                        <ul>
-                            <x-frontend.sidebaritem/>
-                        </ul>
+
+                        <x-frontend.sidebaritem/>
                     </div>
                 </div>
                 <div class="col-lg-9">
@@ -50,6 +45,7 @@
         </div>
     </section>
     <!-- Hero Section End -->
+
 
     <!-- Categories Section Begin -->
     <section class="categories">

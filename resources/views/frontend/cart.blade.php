@@ -38,7 +38,7 @@
                             @foreach($products as $p)
                                 <tr>
                                     <td class="shoping__cart__item">
-                                        <img src="{{$p->getImage()}}" alt="">
+                                        <img src="{{$p->getImage()}}" alt="" style="width: 300px; height: 300px">
                                         <h5>{{$p->__get("product_name")}}</h5>
                                     </td>
                                     <td class="shoping__cart__price">
@@ -90,7 +90,7 @@
                             <li>Subtotal <span>${{$grandTotal}}</span></li>
                             <li>Total <span>${{$grandTotal}}</span></li>
                         </ul>
-                        <a href="{{url("/check-out")}}" class="primary-btn">PROCEED TO CHECKOUT</a>
+                        <a href="{{url("/checkout")}}" class="primary-btn">PROCEED TO CHECKOUT</a>
                     </div>
                 </div>
             </div>
