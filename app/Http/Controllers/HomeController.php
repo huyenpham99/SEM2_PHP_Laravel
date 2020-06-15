@@ -33,9 +33,9 @@ class HomeController extends Controller
 //            $p->save();
 //        }
 //        die("done");
-        $u = Auth::user();
-        $u->role =User::ADMIN_ROLE;
-        $u->save();
+//        $u = Auth::user();
+//        $u->role =User::ADMIN_ROLE;
+//        $u->save();
         if (!Cache::has("home_page")){
             $most_views = Product::orderBy("view_count", "DESC")->limit(8)->get();
             $featured = Product::orderBy("updated_at", "DESC")->limit(8)->get();
