@@ -26,9 +26,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
-        foreach ($categories as $p){
-            $slug = \Illuminate\Support\Str::slug($p->__get("category_name"));
+        $products = Product::all();
+        foreach ($products as $p){
+            $slug = \Illuminate\Support\Str::slug($p->__get("product_name"));
             $p->slug =$slug.$p->__get("id");
             $p->save();
         }
