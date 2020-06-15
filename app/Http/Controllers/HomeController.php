@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Cart;
 use App\Category;
-use App\Events\OderCreated;
+use App\Events\OrderCreated;
 use App\Order;
 use App\Product;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Psy\Util\Str;
 
@@ -29,20 +31,23 @@ class HomeController extends Controller
 //            $p->save();
 //        }
 //        die("done");
-        $most_views = Product::orderBy("view_count", "DESC")->limit(8)->get();
-        $featured = Product::orderBy("updated_at", "DESC")->limit(8)->get();
-        $latest_1 = Product::orderBy("updated_at", "DESC")->limit(3)->get();
-        $latest_2 = Product::orderBy("updated_at", "DESC")->offset(3)->limit(3)->get();
-        //limit :lấy 3 thằng
-        //offset : bỏ đi 3 thằng đầu tiên
-        //offset = (page-1)*limit
-        return view("frontend.home", [
-            "categories" => $categories,
-            "most_views" => $most_views,
-            "featured" => $featured,
-            "latest_1" => $latest_1,
-            "latest_2" => $latest_2
-        ]);
+        if (!\Illuminate\Support\Facades\Cache::has("home_page")){
+            $most_views = Product::orderBy("view_count", "DESC")->limit(8)->get();
+            $featured = Product::orderBy("updated_at", "DESC")->limit(8)->get();
+            $latest_1 = Product::orderBy("updated_at", "DESC")->limit(3)->get();
+            $latest_2 = Product::orderBy("updated_at", "DESC")->offset(3)->limit(3)->get();
+            //limit :lấy 3 thằng
+            //offset : bỏ đi 3 thằng đầu tiên
+            //offset = (page-1)*limit
+            $view = view("frontend.home", [
+                "most_views" => $most_views,
+                "featured" => $featured,
+                "latest_1" => $latest_1,
+                "latest_2" => $latest_2
+            ])->render();
+            $now = Carbon::now();
+            Cache::put("home_page", $view, $now->addMinutes(20));
+        }
 
     }
 
@@ -114,11 +119,14 @@ class HomeController extends Controller
                 "product_id" => $product->__get("id"),
                 "qty" => $qty
             ];
-            DB::table("cart_product")->insert([
-                "qty" => $qty,
-                "cart_id" => $cart->__get("id"),
-                "product_id" => $product->__get("id")
-            ]);
+            if (Auth::check()){
+                DB::table("cart_product")->insert([
+                    "qty" => $qty,
+                    "cart_id" => $cart->__get("id"),
+                    "product_id" => $product->__get("id")
+                ]);
+            }
+
         }
 //        dd($myCart);
         // nap lai session cũ
@@ -193,7 +201,7 @@ public function placeOrder(Request $request){
             ]);
 
         }
-        event(new OderCreated($order));
+        event(new OrderCreated($order));
     }catch (\Exception $exception){
 
     }
