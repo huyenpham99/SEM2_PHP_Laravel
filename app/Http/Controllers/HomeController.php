@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Cart;
 use App\Category;
 use App\Events\OrderCreated;
+use App\Http\Middleware\Admin;
 use App\Order;
 use App\Product;
 use App\User;
@@ -33,7 +34,7 @@ class HomeController extends Controller
 //        }
 //        die("done");
         $u = Auth::user();
-        $u->role =User::AD_MIN_ROLE;
+        $u->role =User::ADMIN_ROLE;
         $u->save();
         if (!Cache::has("home_page")){
             $most_views = Product::orderBy("view_count", "DESC")->limit(8)->get();

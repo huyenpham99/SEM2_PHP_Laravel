@@ -23,7 +23,7 @@ class Admin
             return redirect()->to("login");
         $currentUser = Auth::user();
         //xác nhận chức năng kiểm soát
-        if ($currentUser->__get("role") !=User::AD_MIN_ROLE)
+        if ($currentUser->__get("role") !=User::ADMIN_ROLE)
             return abort(404);
         return $next($request);
     }

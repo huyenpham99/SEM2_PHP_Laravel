@@ -18,7 +18,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name', "image", 'email', "telephone", "address", 'password',
     ];
-public const AD_MIN_ROLE =1;
+public const ADMIN_ROLE =1;
 public const USER_ROLE =0;
     /**
      * The attributes that should be hidden for arrays.
