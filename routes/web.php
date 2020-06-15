@@ -17,8 +17,8 @@ use Illuminate\Support\Facades\Auth;
 */
 Auth::routes();
 require_once "user.php";
-Route::get('/login', 'WebController@login');
-Route::get('/register', 'WebController@register');
+//Route::get('/login', 'WebController@login');
+//Route::get('/register', 'WebController@register');
 
 Route::group(["middleware"=>["admin", "auth"], "prefix"=>"admin"],function (){
     require_once "admin.php";
