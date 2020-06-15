@@ -27,11 +27,11 @@ class HomeController extends Controller
     public function index()
     {
         $categories = Category::all();
-//        foreach ($categories as $p){
-//            $slug = \Illuminate\Support\Str::slug($p->__get("category_name"));
-//            $p->slug =$slug.$p->__get("id");
-//            $p->save();
-//        }
+        foreach ($categories as $p){
+            $slug = \Illuminate\Support\Str::slug($p->__get("category_name"));
+            $p->slug =$slug.$p->__get("id");
+            $p->save();
+        }
 //        die("done");
 //        $u = Auth::user();
 //        $u->role =User::ADMIN_ROLE;
