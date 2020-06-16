@@ -185,6 +185,7 @@ public function placeOrder(Request $request){
             ->where("is_check", true)
             ->where("getItems")
             ->firstOrFail();
+    $grandTotal=0;
         foreach ($cart->getItems as $item){
             $grandTotal += $item->pivot->__get("qty") *$item->__get("price");
         }
