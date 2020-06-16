@@ -7,6 +7,7 @@ Route::get("/product/{product:slug}", "HomeController@product");
 Route::post("/cart/add/{product}", "HomeController@addToCart");
 Route::get("/shopping-cart", "HomeController@shoppingCart");
 Route::get("/checkout", "HomeController@checkout") ->middleware("auth");;
+Route::post("/checkout", "HomeController@checkout") ->middleware("auth");;
 
 
 
