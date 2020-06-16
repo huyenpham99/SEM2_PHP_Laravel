@@ -187,7 +187,7 @@ class HomeController extends Controller
             "telephone" => "required"
         ]);
         $cart = Cart::where("user_id", Auth::id())
-            ->where("is_check", true)
+            ->where("is_checkout", true)
             ->where("getItems")
             ->firstOrFail();
         $grandTotal = 0;
@@ -214,7 +214,6 @@ class HomeController extends Controller
 
             }
             event(new OrderCreated($order));
-            return die("Loi roi");
 
         } catch (\Exception $exception) {
             return redirect()->back();

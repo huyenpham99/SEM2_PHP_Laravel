@@ -1,5 +1,4 @@
 @extends("frontend.layout")
-
 @section("content")
     <!-- Breadcrumb Section Begin -->
     <section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
@@ -66,8 +65,7 @@
                                             {{$item->__get("product_name")}}
                                         <span>{{$item->__get("price") *$item->pivot->__get("qty")}}</span>
                                         </li>
-                                    @php $grandTotal +=($item->__get("price")*$item->pivot->__get("qty"))
-                                   @endphp
+                                    @php $grandTotal +=($item->__get("price")*$item->pivot->__get("qty"))@endphp
                                        @endforeach
 
                                 </ul>
