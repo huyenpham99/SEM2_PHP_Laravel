@@ -214,6 +214,8 @@ class HomeController extends Controller
 
             }
             event(new OrderCreated($order));
+            return die("Loi roi");
+
         } catch (\Exception $exception) {
             return redirect()->back();
         }
