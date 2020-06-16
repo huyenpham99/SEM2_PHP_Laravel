@@ -179,39 +179,78 @@ class HomeController extends Controller
 
     //xu ly chuc nang thanh toan
 
-    public function placeOrder(Request $request)
-    {
+//    public function placeOrder(Request $request)
+//    {
+//        $request->validate([
+//            "username" => "required",
+//            "address" => "required",
+//            "telephone" => "required"
+//        ]);
+//        $cart = Cart::where("user_id", Auth::id())
+//            ->where("is_checkout", true)
+//            ->where("getItems")
+//            ->firstOrFail();
+//        $grandTotal = 0;
+//        foreach ($cart->getItems as $item) {
+//            $grandTotal += $item->pivot->__get("qty") * $item->__get("price");
+//        }
+//        try {
+//            $order = Order::create([
+//                "user_id" => Auth::id(),
+//                "username" => $request->get("username"),
+//                "address" => $request->get("address"),
+//                "telephone" => $request->get("telephone"),
+//                "note" => $request->get("note"),
+//                "grand_total" => $grandTotal,
+//                "status" => Order::PENDING
+//            ]);
+//            foreach ($cart->getItems as $item) {
+//                DB::table("orders_products")->insert([
+//                    "order_id" => $order->__get("id"),
+//                    "product_id" => $item->__get("product_id"),
+//                    "price" => $item->__get("price"),
+//                    "qty" => $item->pivot->__get("qty"),
+//                ]);
+//
+//            }
+//            event(new OrderCreated($order));
+//
+//        }catch (\Exception $exception){
+//
+//        }
+//        return redirect()->to("/");
+//    }
+    public function placeOrder(Request $request){
         $request->validate([
-            "username" => "required",
-            "address" => "required",
-            "telephone" => "required"
+            "username"=>"required",
+            "address"=>"required",
+            "telephone"=>"required",
         ]);
-        $cart = Cart::where("user_id", Auth::id())
-            ->where("is_checkout", true)
-            ->where("getItems")
+        $cart = Cart::where("user_id",Auth::id())
+            ->where("is_checkout",true)
+            ->with("getItems")
             ->firstOrFail();
         $grandTotal = 0;
-        foreach ($cart->getItems as $item) {
-            $grandTotal += $item->pivot->__get("qty") * $item->__get("price");
+        foreach ($cart->getItems as $item){
+            $grandTotal+= $item->pivot->__get("qty")*$item->__get("price");
         }
-        try {
+        try{
             $order = Order::create([
-                "user_id" => Auth::id(),
-                "username" => $request->get("username"),
-                "address" => $request->get("address"),
-                "telephone" => $request->get("telephone"),
-                "note" => $request->get("note"),
-                "grand_total" => $grandTotal,
-                "status" => Order::PENDING
+                "user_id"=>Auth::id(),
+                "username"=>$request->get("username"),
+                "address"=>$request->get("address"),
+                "telephone"=>$request->get("telephone"),
+                "note"=>$request->get("note"),
+                "grand_total"=>$grandTotal,
+                "status"=> Order::PENDING
             ]);
-            foreach ($cart->getItems as $item) {
+            foreach ($cart->getItems as $item){
                 DB::table("orders_products")->insert([
-                    "order_id" => $order->__get("id"),
-                    "product_id" => $item->__get("product_id"),
+                    "order_id"=>$order->__get("id"),
+                    "product_id"=>$item->__get("id"),
                     "price" => $item->__get("price"),
-                    "qty" => $item->pivot->__get("qty"),
+                    "qty"=> $item->pivot->__get("qty")
                 ]);
-
             }
             event(new OrderCreated($order));
 
@@ -220,5 +259,4 @@ class HomeController extends Controller
         }
         return redirect()->to("/");
     }
-
 }
