@@ -215,8 +215,10 @@ class HomeController extends Controller
             }
             event(new OrderCreated($order));
 
-        } catch (\Exception $exception) {
-            return redirect()->back();
+        }catch (\Exception $exception){
+
         }
+        return redirect()->to("/");
     }
+
 }
