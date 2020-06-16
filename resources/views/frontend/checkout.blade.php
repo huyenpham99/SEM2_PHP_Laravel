@@ -95,8 +95,8 @@
                                        @endforeach
 
                                 </ul>
-                                <div class="checkout__order__subtotal">Subtotal <span></span></div>
-                                <div class="checkout__order__total">Total <span></span></div>
+                                <div class="checkout__order__subtotal">Subtotal <span>${{$grandTotal}}</span></div>
+                                <div class="checkout__order__total">Total <span>${{$grandTotal}}</span></div>
                                 <div class="checkout__input__checkbox">
                                     <label for="acc-or">
                                         Create an account?
