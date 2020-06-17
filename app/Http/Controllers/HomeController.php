@@ -201,7 +201,7 @@ class HomeController extends Controller
                 "telephone" => $request->get("telephone"),
                 "note" => $request->get("note"),
                 "grand_total" => $grandTotal,
-                "status" => Order::PENDING
+                "status" => Order::PENDING,
             ]);
             foreach ($cart->getItems as $item) {
                 DB::table("orders_products")->insert([
