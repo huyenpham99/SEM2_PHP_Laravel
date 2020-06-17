@@ -213,7 +213,7 @@ class HomeController extends Controller
             event(new OrderCreated($order));
 
         }catch (\Exception $exception){
-            return redirect("/home");
+            return $exception->getMessage();
         }
 
     }
