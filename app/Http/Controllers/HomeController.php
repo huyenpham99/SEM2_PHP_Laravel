@@ -178,41 +178,42 @@ class HomeController extends Controller
         ]);
     }
 
-    public function placeOrder(Request $request){
+    public function placeOrder(Request $request)
+    {
         $request->validate([
-            "username"=>"required",
-            "address"=>"required",
-            "telephone"=>"required",
+            "username" => "required",
+            "address" => "required",
+            "telephone" => "required",
         ]);
-        $cart = Cart::where("user_id",Auth::id())
-            ->where("is_checkout",true)
+        $cart = Cart::where("user_id", Auth::id())
+            ->where("is_checkout", true)
             ->with("getItems")
             ->firstOrFail();
         $grandTotal = 0;
-        foreach ($cart->getItems as $item){
-            $grandTotal+= $item->pivot->__get("qty")*$item->__get("price");
+        foreach ($cart->getItems as $item) {
+            $grandTotal += $item->pivot->__get("qty") * $item->__get("price");
         }
-        try{
+        try {
             $order = Order::create([
-                "user_id"=>Auth::id(),
-                "username"=>$request->get("username"),
-                "address"=>$request->get("address"),
-                "telephone"=>$request->get("telephone"),
-                "note"=>$request->get("note"),
-                "grand_total"=>$grandTotal,
-                "status"=> Order::PENDING
+                "user_id" => Auth::id(),
+                "username" => $request->get("username"),
+                "address" => $request->get("address"),
+                "telephone" => $request->get("telephone"),
+                "note" => $request->get("note"),
+                "grand_total" => $grandTotal,
+                "status" => Order::PENDING
             ]);
-            foreach ($cart->getItems as $item){
+            foreach ($cart->getItems as $item) {
                 DB::table("orders_products")->insert([
-                    "order_id"=>$order->__get("id"),
-                    "product_id"=>$item->__get("id"),
+                    "order_id" => $order->__get("id"),
+                    "product_id" => $item->__get("id"),
                     "price" => $item->__get("price"),
-                    "qty"=> $item->pivot->__get("qty")
+                    "qty" => $item->pivot->__get("qty")
                 ]);
             }
             event(new OrderCreated($order));
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             return $exception->getMessage();
         }
 

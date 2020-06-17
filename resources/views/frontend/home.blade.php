@@ -1,5 +1,30 @@
 @extends("frontend.layout")
 @section("content")
+    {{--    Demo notification--}}
+    <script src="{{asset("https://js.pusher.com/6.0/pusher.min.js")}}"></script>
+    <script>
+
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('70f132f573337adef266', {
+            cluster: 'ap1'
+        });
+
+        var channel = pusher.subscribe('global');
+        channel.bind('new_category', function (data) {
+            alert(JSON.stringify(data));
+            alert(data.message);
+        });
+        channel.bind("new_product", function (data) {
+            alert(data.message);
+        });
+        var vtv6 = pusher.subscribe("home");
+        vtv6.bind("home_page", function (data) {
+            location.reload(); //cái này nên hỏi ý kiến người dùng
+        })
+    </script>
+
     <!-- Hero Section Begin -->
     <section class="hero">
         <div class="container">
@@ -30,7 +55,7 @@
                                 <i class="fa fa-phone"></i>
                             </div>
                             <div class="hero__search__phone__text">
-                                <h5>+65 11.188.888</h5>
+                                <h5>0377097073</h5>
                                 <span>support 24/7 time</span>
                             </div>
                         </div>
@@ -96,7 +121,8 @@
                                 <ul class="featured__item__pic__hover">
                                     <li><a href="#"><i class="fa fa-heart"></i></a></li>
                                     <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                    <li><a href="#" onclick="addToCart({{$f->__get("id")}})"><i class="fa fa-shopping-cart"></i></a></li>
+                                    <li><a href="#" onclick="addToCart({{$f->__get("id")}})"><i
+                                                class="fa fa-shopping-cart"></i></a></li>
                                 </ul>
                             </div>
                             <div class="featured__item__text">

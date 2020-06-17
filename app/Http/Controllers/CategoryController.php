@@ -51,6 +51,8 @@ class CategoryController extends Controller
                 "category_name" => $request->get("category_name"),
                 "category_image" =>$categoryImage
             ]);
+            $data["message"] ="Vua them 1 danh muc moi la:".$request->get("category_name");
+            notify("global", "new_category", $data);
 
             // "updated_at"=>Carbon::now(),
             //            DB::table("categories") ->insert([
@@ -112,6 +114,7 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
         try {
             $category->delete();
+            notify("home", "home_page", []);
         } catch (\Exception $exception) {
             return redirect()->back();
         }
